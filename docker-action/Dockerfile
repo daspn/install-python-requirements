@@ -12,4 +12,4 @@ COPY entrypoint.sh /entrypoint.sh
 RUN ["chmod", "+x", "/entrypoint.sh"]
 
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
-ENTRYPOINT ["/entrypoint.sh", "/github/workspace", "requirements/base.txt", "deployment/lambda/layers"]
+ENTRYPOINT ["/entrypoint.sh", "/ws", "requirements/base.txt", "deployment/lambda/layers"]

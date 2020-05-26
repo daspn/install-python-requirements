@@ -16,4 +16,4 @@ ls .
 echo "GITHUB_WORKSPACE is $GITHUB_WORKSPACE"
 
 docker build -t docker-action --build-arg python_version="$PYTHON_VERSION" --build-arg workspace="$GITHUB_WORKSPACE" --build-arg requirements_file_path="$REQUIREMENTS_FILE_PATH" --build-arg install_dir="$INSTALL_DIR" .
-docker run -v /github/workspace:/github/workspace docker-action
+docker run -v "/github/workspace":"/ws" docker-action
