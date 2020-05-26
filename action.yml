@@ -1,0 +1,20 @@
+# action.yml
+name: 'Install Python dependencies'
+description: 'Runs PIP to install Python dependencies'
+inputs:
+  python_version:
+    description: 'Python version'
+    required: true
+  requirements_file_path:
+    description: 'The PIP requirements file. Must be relative to the workspace root.'
+    required: true
+  install_dir:
+    description: 'The folder where the dependencies should be installed. Must be relative to the workspace root.'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.python_version }}
+    - ${{ inputs.requirements_file_path }}
+    - ${{ inputs.install_dir }}
