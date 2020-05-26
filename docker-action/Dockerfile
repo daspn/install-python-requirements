@@ -1,15 +1,9 @@
-# Container image that runs your code
 ARG python_version
-FROM python:${python_version}
+FROM python:${python_version}-slim-buster
 
-ARG workspace
 ARG requirements_file_path
-ARG install_dir
 
-# Copies your code file from your action repository to the filesystem path `/` of the container
-COPY entrypoint.sh /entrypoint.sh
+WORKDIR /python
+COPY ${requirements_file_path} /python/requirements.txt
 
-RUN ["chmod", "+x", "/entrypoint.sh"]
-
-# Code file to execute when the docker container starts up (`entrypoint.sh`)
-ENTRYPOINT ["/entrypoint.sh", "/ws", "requirements/base.txt", "deployment/lambda/layers"]
+RUN pip install -r requirements.txt -t .

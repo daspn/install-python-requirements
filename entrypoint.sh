@@ -1,19 +1,19 @@
 #!/bin/sh -l
 
 PYTHON_VERSION=$1
-REQUIREMENTS_FILE_PATH=$2
-INSTALL_DIR=$3
+REQUIREMENTS_FILE_PATH="$GITHUB_WORKSPACE/$2"
+INSTALL_DIR="$GITHUB_WORKSPACE/$3"
 
-cd /docker-action
-echo "creating docker image with Python version: $PYTHON_VERSION"
+echo "python version: $PYTHON_VERSION"
+echo "requirements file: $REQUIREMENTS_FILE_PATH"
+echo "install dir: $INSTALL_DIR"
 
-echo listing /github/workspace
-ls /github/workspace
+CONTAINER_NAME="c-$(date +%Y%m%d%H%M%S)"
 
-echo listing curdir
-ls .
+docker build --file docker-action/Dockerfile --force-rm --build-arg python_version="$PYTHON_VERSION" --build-arg requirements_file_path="$REQUIREMENTS_FILE_PATH" -t python-requirements .
+docker create -ti --name $CONTAINER_NAME python-requirements bash
 
-echo "GITHUB_WORKSPACE is $GITHUB_WORKSPACE"
-
-docker build -t docker-action --build-arg python_version="$PYTHON_VERSION" --build-arg workspace="$GITHUB_WORKSPACE" --build-arg requirements_file_path="$REQUIREMENTS_FILE_PATH" --build-arg install_dir="$INSTALL_DIR" .
-docker run -v "/github/workspace":"/ws" docker-action
+mkdir -p $INSTALL_DIR
+docker cp $CONTAINER_NAME:/python $INSTALL_DIR
+docker rm -f $CONTAINER_NAME
+docker rmi python-requirements
