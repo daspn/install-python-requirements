@@ -10,7 +10,7 @@ echo "install dir: $INSTALL_DIR"
 
 CONTAINER_NAME="c-$(date +%Y%m%d%H%M%S)"
 
-docker build --file docker-action/Dockerfile --force-rm --build-arg python_version="$PYTHON_VERSION" --build-arg requirements_file_path="$REQUIREMENTS_FILE_PATH" -t python-requirements .
+docker build --force-rm --build-arg python_version="$PYTHON_VERSION" --build-arg requirements_file_path="$REQUIREMENTS_FILE_PATH" -t python-requirements /docker-action/Dockerfile
 docker create -ti --name $CONTAINER_NAME python-requirements bash
 
 mkdir -p $INSTALL_DIR
