@@ -5,6 +5,8 @@ echo "1: $1"
 echo "2: $2"
 echo "3: $3"
 
+ls -a $1
+
 INSTALL_DIR="$1/$3"
 REQUIREMENTS_FILE_PATH="$1/$2"
 
